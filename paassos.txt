@@ -1,0 +1,20 @@
+/ criar um git ignore / 
+dotnet new gitignore
+
+/ criar a solução e o projeto / 
+dotnet new sln --name CozaStore 
+dotnet new mvc -o CozaStore -f net6.0
+dotnet sln add CozaStore\CozaStore.csproj
+
+/ instalação dos pacotes / 
+site: nuget.org
+- search: entityframeworkcore
+dotnet add package Microsoft.EntityFrameworkCore --version 6.0.22
+- search: entityframeworkcore.design
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.22
+- search: pomelo
+dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.2
+- search: aspnetcore.identity
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.22
+- search: codegeneration.design
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.16
