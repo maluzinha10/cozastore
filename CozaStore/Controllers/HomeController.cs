@@ -22,23 +22,23 @@ public class HomeController : Controller
     {
         return View();
     }
-    
-    public IActionResult Produtos ()
+
+    public IActionResult Produtos()
     {
         return View();
     }
-    
-    public IActionResult Blog ()
+
+    public IActionResult Blog()
     {
         return View();
     }
-    
-    public IActionResult  Contatos()
+
+    public IActionResult Contatos()
     {
         return View();
     }
-    
-    public IActionResult  Termos()
+
+    public IActionResult Termos()
     {
         return View();
     }

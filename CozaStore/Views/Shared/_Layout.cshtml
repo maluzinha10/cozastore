@@ -34,7 +34,7 @@
 	<link rel="stylesheet" type="text/css" href="~/css/util.css">
 	<link rel="stylesheet" type="text/css" href="~/css/main.css">
 <!--===============================================================================================-->
-@await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="animsition">
 	
@@ -83,19 +83,15 @@
 							<li class='@(ViewBag.Title == "Home" ? "active-menu" : "")'>
 								<a asp-action="Index">Home</a>
 							</li>
-
 							<li class='@(ViewBag.Title == "Loja" ? "active-menu" : "")'>
 								<a asp-action="Loja">Sobre Nós</a>
 							</li>
-
 							<li class='label1 @(ViewBag.Title == "Produtos" ? "active-menu" : "")' data-label1="hot">
 								<a asp-action="Produtos">Produtos</a>
 							</li>
-
 							<li class='@(ViewBag.Title == "Blog" ? "active-menu" : "")'>
 								<a asp-action="Blog">Blog</a>
 							</li>
-
 							<li class='@(ViewBag.Title == "Contatos" ? "active-menu" : "")'>
 								<a asp-action="Contatos">Contatos</a>
 							</li>
@@ -185,19 +181,15 @@
 				<li>
 					<a asp-action="Index">Home</a>
 				</li>
-
 				<li>
 					<a asp-action="Loja">Sobre Nós</a>
 				</li>
-
 				<li>
 					<a asp-action="Produtos" class="label1 rs1" data-label1="hot">Produtos</a>
 				</li>
-
 				<li>
 					<a asp-action="Blog">Blog</a>
 				</li>
-
 				<li>
 					<a asp-action="Contatos">Contatos</a>
 				</li>
@@ -220,13 +212,12 @@
 			</div>
 		</div>
 	</header>
- 
- <patial name="_Cart.cshtml"></patial>
-	
 
-@RenderBody()
+    <partial name="_Cart.cshtml"></partial>
 
-<!-- Footer -->
+    @RenderBody()
+
+    <!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
@@ -637,5 +628,3 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-
