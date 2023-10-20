@@ -31,11 +31,13 @@ public class ProdutoEstoque
 
     [Display(Name = "Preço")]
     [Column(TypeName = "decimal(8,2)")]
-    [Required(ErrorMessage = "Informe o Preço de Venda")]
     public decimal? Preco { get; set; }
 
     [Display(Name = "Preço com Desconto")]
     [Column(TypeName = "decimal(8,2)")]
     public decimal? PrecoDesconto { get; set; }
+    
+     public ICollection<CarrinhoProduto> Carrinhos { get; set; }
+
 }
 

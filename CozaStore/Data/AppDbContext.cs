@@ -6,7 +6,7 @@ namespace CozaStore.Data;
 
 public class AppDbContext : IdentityDbContext
 {
-    public AppDbContext(DbContextOptions options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
@@ -29,10 +29,11 @@ public class AppDbContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        AppDbSeed appDbSeed = new(builder);
 
         #region Chave Primária Composta - ProdutoFoto
         builder.Entity<ProdutoFoto>().HasKey(
-            pf => new {pf.Id, pf.Produto}
+            pf => new {pf.Id, pf.ProdutoId}
         );
         #endregion
 
@@ -44,7 +45,7 @@ public class AppDbContext : IdentityDbContext
         builder.Entity<ProdutoAvaliacao>()
             .HasOne(pa => pa.Produto)
             .WithMany(p => p.Avaliacoes)
-            .HasForeignKey(pa => pa.Produto);
+            .HasForeignKey(pa => pa.ProdutoId);
 
         builder.Entity<ProdutoAvaliacao>()
             .HasOne(pa => pa.Usuario)
@@ -60,7 +61,7 @@ public class AppDbContext : IdentityDbContext
         builder.Entity<ProdutoCategoria>()
             .HasOne(pc => pc.Produto)
             .WithMany(p => p.Categorias)
-            .HasForeignKey(pc => pc.Produto);
+            .HasForeignKey(pc => pc.ProdutoId);
 
         builder.Entity<ProdutoCategoria>()
             .HasOne(pc => pc.Categoria)
@@ -76,7 +77,7 @@ public class AppDbContext : IdentityDbContext
         builder.Entity<ProdutoTag>()
             .HasOne(pt => pt.Produto)
             .WithMany(p => p.Tags)
-            .HasForeignKey(pt => pt.Produto);
+            .HasForeignKey(pt => pt.ProdutoId);
 
         builder.Entity<ProdutoTag>()
             .HasOne(pt => pt.Tag)
@@ -102,6 +103,36 @@ public class AppDbContext : IdentityDbContext
             .HasForeignKey(pe => pe.TamanhoId);
         #endregion
 
+        #region Relacionamento Muitos para Muitos - CarrinhoProduto
+         builder.Entity<CarrinhoProduto>().HasKey(
+            cp => new {cp.CarrinhoId, cp.ProdutoEstoqueId}
+         );
+
+          builder.Entity<CarrinhoProduto>()
+            .HasOne(cp => cp.Carrinho)
+            .WithMany(c => c.Produtos)
+            .HasForeignKey(cp => cp.CarrinhoId);
+
+             builder.Entity<CarrinhoProduto>()
+            .HasOne(cp => cp.ProdutoEstoque)
+            .WithMany(pe => pe.Carrinhos)
+            .HasForeignKey(cp => cp.ProdutoEstoqueId);
+        #endregion
+
+        #region Relacionamento Muitos para Muitos - ListaDesejo
+            builder.Entity<ListaDesejo>().HasKey(
+            Id => new {Id.ProdutoId, Id.UsuarioId}
+            );
+            builder.Entity<ListaDesejo>()
+            .HasOne(Id => Id.Produto)
+            .WithMany(p=> p.ListaDesejos)
+            .HasForeignKey(Id => Id.ProdutoId);
+
+            builder.Entity<ListaDesejo>()
+            .HasOne(Id => Id.Usuario)
+            .WithMany(u => u.ListaDesejos)
+            .HasForeignKey(Id => Id.UsuarioId);
+          #endregion
     }
 
 }
