@@ -1,0 +1,160 @@
+@model CozaStore.ViewModels.Account.RegisterVM
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<div class="position-relative">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner" style="max-width: 600px;">
+            <!-- Register Card -->
+            <div class="card p-2">
+                <!-- Logo -->
+                <div class="app-brand justify-content-center mt-5">
+                    <a asp-action="Index" asp-controller="Home" class="app-brand-link gap-2">
+                        <img src="~/images/icons/logo-01.png" width="200">
+                    </a>
+                </div>
+                <!-- /Logo -->
+
+                @if (!Model.Enviado) {
+                    <div class="card-body">
+                        <h4 class="mb-2 text-center">O Melhor Lugar para suas Compras</h4>
+                        <p class="mb-4 text-center">Crie sua conta agora e aproveite nossas ofertas!</p>
+
+                        <form id="formAuthentication" class="mb-3" method="POST" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" hidden></div>
+                            <div class="form-floating form-floating-outline mb-3">
+                                <input class="form-control" asp-for="Nome" autofocus />
+                                <label asp-for="Nome"></label>
+                                <span asp-validation-for="Nome" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating form-floating-outline mb-3">
+                                <input class="form-control" asp-for="Email"/>
+                                <label asp-for="Email"></label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-floating form-floating-outline mb-3">
+                                        <input class="form-control" asp-for="DataNascimento"/>
+                                        <label asp-for="DataNascimento"></label>
+                                        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3 form-password-toggle">
+                                        <div class="input-group input-group-merge">
+                                            <div class="form-floating form-floating-outline">
+                                                <input class="form-control" asp-for="Senha"/>
+                                                <label asp-for="Senha"></label>
+                                            </div>
+                                            <span class="input-group-text cursor-pointer">
+                                                <i class="mdi mdi-eye-off-outline"></i></span>
+                                        </div>
+                                        <span asp-validation-for="Senha" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3 form-password-toggle">
+                                        <div class="input-group input-group-merge">
+                                            <div class="form-floating form-floating-outline">
+                                                <input class="form-control" asp-for="ConfirmacaoSenha" />
+                                                <label asp-for="ConfirmacaoSenha"></label>
+                                            </div>
+                                            <span class="input-group-text cursor-pointer"><i
+                                                    class="mdi mdi-eye-off-outline"></i></span>
+                                        </div>
+                                        <span asp-validation-for="ConfirmacaoSenha" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4" style="min-height: 100%; vertical-align:middle">
+                                    <img src="~/images/usuarios/no-photo.jpg" alt="Foto" id="PreviewImage" class="img-fluid w-100 py-2 cursor-pointer" onclick="changeImage()" />
+                                    <div hidden>
+                                        <input type="file" asp-for="Foto" accept=".jpg,.jpeg,.png,.gif,.jfif" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="Termos" onclick="verificarTermos()"/>
+                                    <label class="form-check-label" asp-for="Termos">
+                                        Eu concordo com os
+                                        <a href="javascript:void(0);">termos e politica de privacidade</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <button id="submit" class="btn btn-primary d-grid w-100" disabled>Criar Conta</button>
+                        </form>
+
+                        <p class="text-center">
+                            <span>Já possuir uma Conta?</span>
+                            <a asp-action="Login" asp-controller="Account">
+                                <span>Faça Login</span>
+                            </a>
+                        </p>
+                    </div>
+                } else {
+                    <div class="card-body text-center">
+                        <h4 class="mb-2">O Melhor Lugar para suas Compras</h4>
+                        <p class="mb-4">Acesse o email informado para concluir o processo de criação de Conta!</p>
+                        <a asp-action="Login" asp-controller="Account" class="btn btn-info text-white">Ir para o Login</a>
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-primary text-white">Voltar a página inicial</a>
+                    </div>
+                }
+            </div>
+            <!-- Register Card -->
+            <img src="~/assets/img/illustrations/tree-3.png" alt="auth-tree"
+                class="authentication-image-object-left d-none d-lg-block" />
+            <img src="~/assets/img/illustrations/auth-basic-mask-light.png"
+                class="authentication-image d-none d-lg-block" alt="triangle-bg"
+                data-app-light-img="illustrations/auth-basic-mask-light.png"
+                data-app-dark-img="illustrations/auth-basic-mask-dark.png" />
+            <img src="~/assets/img/illustrations/tree.png" alt="auth-tree"
+                class="authentication-image-object-right d-none d-lg-block" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+
+        let mensagemErro = '';
+        $('.validation-summary-errors ul li').each(function () {
+            mensagemErro += $(this).text() + '<br>';
+        });
+
+        if (mensagemErro != '') {
+            Swal.fire(
+                'Problemas ao Criar Conta',
+                mensagemErro,
+                'error'
+            );
+        }
+
+        function changeImage(){
+            document.querySelector('input[type="file"]').click();
+        }
+
+        window.addEventListener('load', function () {
+            document.querySelector('input[type="file"]').addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    var img = document.getElementById('PreviewImage');
+                    img.src = URL.createObjectURL(this.files[0]);
+                }
+            });
+        });
+
+        function verificarTermos() {
+            let t = document.getElementById("Termos");
+            let s = document.getElementById("submit");
+            t.value = t.checked;
+            if (t.checked) {
+                s.removeAttribute("disabled");
+            } else {
+                s.setAttribute("disabled", true);
+            }
+            console.log(s);
+        }
+
+    </script>
+}

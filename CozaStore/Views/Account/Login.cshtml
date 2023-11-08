@@ -1,0 +1,97 @@
+@model CozaStore.ViewModels.Account.LoginVM
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<div class="position-relative">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-4" style="max-width: 600px;">
+            <!-- Login -->
+            <div class="card p-2">
+                <!-- Logo -->
+                <div class="app-brand justify-content-center mt-5">
+                    <a asp-action="Index" asp-controller="Home" class="app-brand-link gap-2">
+                        <img src="~/images/icons/logo-01.png" width="200">
+                    </a>
+                </div>
+                <!-- /Logo -->
+
+                <div class="card-body mt-2">
+                    <h4 class="mb-2 text-center">Bem Vindo a CozaStore!</h4>
+                    <p class="mb-4 text-center">Faça login para ter acesso a mais opções!!</p>
+
+                    <form id="formAuthentication" class="mb-3" method="post">
+                        <div asp-validation-summary="ModelOnly" hidden></div>
+                        <input asp-for="UrlRetorno" type="hidden">
+                        <div class="form-floating form-floating-outline mb-3">
+                            <input asp-for="Email" class="form-control" autofocus />
+                            <label asp-for="Email"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-password-toggle">
+                                <div class="input-group input-group-merge">
+                                    <div class="form-floating form-floating-outline">
+                                        <input asp-for="Senha" class="form-control" />
+                                        <label asp-for="Senha"></label>
+                                    </div>
+                                    <span class="input-group-text cursor-pointer">
+                                        <i class="mdi mdi-eye-off-outline"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="Senha" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3 px-3">
+                            <div class="form-check col-lg-6 col-sm-12">
+                                <input class="form-check-input" asp-for="Lembrar" />
+                                <label class="form-check-label" asp-for="Lembrar"></label>
+                            </div>
+                            <a asp-action="Forget" asp-controller="Account" class="col-lg-6 px-0 col-sm-12 mb-1 text-end">
+                                <span>Esqueci minha Senha?</span>
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit">Entrar</button>
+                        </div>
+                    </form>
+
+                    <p class="text-center">
+                        <span>Novo por aqui?</span>
+                        <a asp-action="Register" asp-controller="Account">
+                            <span>Crie sua conta</span>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <!-- /Login -->
+            <img src="~/assets/img/illustrations/tree-3.png" alt="auth-tree"
+                class="authentication-image-object-left d-none d-lg-block" />
+            <img src="~/assets/img/illustrations/auth-basic-mask-light.png"
+                class="authentication-image d-none d-lg-block" alt="triangle-bg"
+                data-app-light-img="illustrations/auth-basic-mask-light.png"
+                data-app-dark-img="illustrations/auth-basic-mask-dark.png" />
+            <img src="~/assets/img/illustrations/tree.png" alt="auth-tree"
+                class="authentication-image-object-right d-none d-lg-block" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        let mensagemErro = '';
+        $('.validation-summary-errors ul li').each(function () {
+            mensagemErro += $(this).text() + '<br>';
+        });
+        if (mensagemErro != '') {
+            Swal.fire(
+                'Acesso Negado',
+                mensagemErro,
+                'error'
+            );
+        }
+    </script>
+}

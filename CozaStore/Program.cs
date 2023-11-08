@@ -14,7 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 //Serviço do Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+options.SignIn.RequireConfirmedAccount = false)
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
